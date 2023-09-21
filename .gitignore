@@ -1,0 +1,19 @@
+# IntelliJ project files
+.idea/
+
+# Compiled binary files for Rust
+/target/
+
+# Python virtual environment
+__pycache__/
+venv/
+*.pyc
+*.pyo
+
+# Python packaging
+dist/
+build/
+*.egg-info/
+
+# Ignore hidden files and directories
+.*
