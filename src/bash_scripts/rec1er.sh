@@ -65,7 +65,9 @@ if [ ! -d "$output_dir" ]; then
 fi
 
 
-function check_webserver() {
+# Website taking screenshot section
+
+function check_webserver() {  # Checks if a webserver is reachable
   domain=$1
 
   response_code=$(curl -s -o /dev/null -w "%{http_code}" "http://$domain")
@@ -75,6 +77,13 @@ function check_webserver() {
   else
     echo "$domain may not resolve to a web server, or the server returned a different status code ($response_code)."
   fi
+}
+
+function take_screenshot() {  # Takes a screenshot of a website
+  domain=$1
+
+  google-chrome --headless --disable-gpu --screenshot --window-size=1280,1696 --default-background-color=0 domain
+  mv screenshot.png "$output_dir/$domain.png"
 }
 
 
