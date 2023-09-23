@@ -24,19 +24,21 @@ function print_err (){
 output_dir=""
 verbose=false
 proxy=""
+targets_file=""
 
 # Usage function to display how to use the script
 usage() {
-  echo "Usage: $0 [-o <output_directory>] [-v] [-p <proxy>]"
+  echo "Usage: $0 [-o <output_directory>] [-v] [-p <proxy>] [-t <targets_file>]"
   echo "Options:"
   echo "  -o <output_directory>    Specify the output directory (required)"
   echo "  -v                      Enable verbose mode"
   echo "  -p <proxy>              Specify a proxy server"
+  echo "  -t <targets_file>       Specify a file with a list of targets (one per line)"
   exit 1
 }
 
 # Parse command-line options
-while getopts "o:vp:" opt; do
+while getopts "o:vp:t:" opt; do
   case "$opt" in
     o)
       output_dir="$OPTARG"
@@ -46,6 +48,9 @@ while getopts "o:vp:" opt; do
       ;;
     p)
       proxy="$OPTARG"
+      ;;
+    t)
+      targets_file="$OPTARG"
       ;;
     \?)
       usage
@@ -62,6 +67,17 @@ fi
 # Create the output directory if it doesn't exist
 if [ ! -d "$output_dir" ]; then
   mkdir -p "$output_dir"
+fi
+
+# Check if the targets file is provided and exists
+if [ -z "$targets_file" ]; then
+  echo "Error: Targets file is required."
+  usage
+fi
+
+if [ ! -f "$targets_file" ]; then
+  echo "Error: Targets file '$targets_file' not found."
+  usage
 fi
 
 
